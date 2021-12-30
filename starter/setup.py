@@ -1,8 +1,8 @@
 import setuptools
 
 setuptools.setup(
-    name="starter",
-    version="0.0.0",
-    description="Starter code.",
-    author="Student",
+    name="UP4",
+    version="0.0.1",
+    description="Udacity Project 4 from ML Devops Course.",
+    author="Oliver Poole",
 )
