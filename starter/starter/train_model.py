@@ -47,7 +47,7 @@ def proc_all_data(train, test):
         test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
     )
     
-    return X_train, y_train, X_test, y_test
+    return X_train, y_train, X_test, y_test, encoder
 
 def save_model(model, save_pth):
     try:
@@ -65,18 +65,36 @@ def load_model(pth):
         print(f"Model could not be loaded with the following error: {err}")
         return None
 
+def save_encoder(encoder, save_pth):
+    try:
+        pickle.dump(encoder, open(save_pth, 'wb'))
+        print(f"Encoder saved successfully under {save_pth}")
+    except OSError as err:
+        print(f"Encoder was not saved with the following error: {err}")
+
+def load_encoder(pth):
+    try:
+        encoder = pickle.load(open(pth, 'rb'))
+        print(f"Encoder was loaded succesfully from {pth}")
+        return encoder
+    except OSError as err:
+        print(f"Encoder could not be loaded with the following error: {err}")
+        return None
+
 def go():
     data = load_data(os.path.normcase("starter/data/census.csv"))
     data.columns = data.columns.str.replace(' ','')
     save_clean_data(data, os.path.normcase("starter/data/clean_census.csv"))
 
     train, test = split_data(data)
-    X_train, y_train, X_test, y_test = proc_all_data(train, test)
+    X_train, y_train, X_test, y_test, encoder = proc_all_data(train, test)
 
     model = train_model(X_train, y_train)
 
     save_model(model, os.path.normcase("starter/model/RF_model"))
+    save_encoder(encoder, os.path.normcase("starter/model/encoder"))
     #model = load_model(os.path.normcase("starter/model/RF_model"))
+    #model = load_encoder(os.path.normcase("starter/model/encoder"))
 
     preds = inference(model, X_test)
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
