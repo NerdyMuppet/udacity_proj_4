@@ -27,17 +27,7 @@ def split_data(data):
     train, test = train_test_split(data, test_size=0.20)
     return train, test
 
-def proc_all_data(train, test):
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
+def proc_all_data(train, test, cat_features):
 
     X_train, y_train, encoder, lb = process_data(
         train, categorical_features=cat_features, label="salary", training=True
@@ -47,7 +37,7 @@ def proc_all_data(train, test):
         test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
     )
     
-    return X_train, y_train, X_test, y_test, encoder
+    return X_train, y_train, X_test, y_test, encoder, lb
 
 def save_model(model, save_pth):
     try:
@@ -81,22 +71,50 @@ def load_encoder(pth):
         print(f"Encoder could not be loaded with the following error: {err}")
         return None
 
+def create_slice_inference_on_column(dat, model, column, cat_features):
+    vals = dat[column].unique().tolist()
+    encoder = load_encoder(os.path.normcase("starter/model/encoder"))
+    lb = load_encoder(os.path.normcase("starter/model/lb"))
+
+    for i in vals:
+        dat_slice = dat.loc[dat[column] == i]
+        X_slice, y_slice, _, _ = process_data(
+            dat_slice, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
+        )
+        preds_slice= inference(model, X_slice)
+        scores = compute_model_metrics(y_slice, preds_slice)
+        print(scores)
+
 def go():
     data = load_data(os.path.normcase("starter/data/census.csv"))
     data.columns = data.columns.str.replace(' ','')
     save_clean_data(data, os.path.normcase("starter/data/clean_census.csv"))
+    
+    cat_features = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country",
+    ]
 
     train, test = split_data(data)
-    X_train, y_train, X_test, y_test, encoder = proc_all_data(train, test)
+    X_train, y_train, X_test, y_test, encoder, lb = proc_all_data(train, test, cat_features)
 
     model = train_model(X_train, y_train)
 
     save_model(model, os.path.normcase("starter/model/RF_model"))
     save_encoder(encoder, os.path.normcase("starter/model/encoder"))
+    save_encoder(lb, os.path.normcase("starter/model/lb"))
     #model = load_model(os.path.normcase("starter/model/RF_model"))
-    #model = load_encoder(os.path.normcase("starter/model/encoder"))
+    #encoder = load_encoder(os.path.normcase("starter/model/encoder"))
+    #lb = load_encoder(os.path.normcase("starter/model/lb"))
 
     preds = inference(model, X_test)
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
+    #create_slice_inference_on_column(data, model, "Education", cat_features)
 
 go()
