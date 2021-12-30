@@ -9,13 +9,18 @@ from ml.data import process_data
 from ml.model import train_model, inference, compute_model_metrics
 
 # Add code to load in the data.
-def load_data(load_dir="starter/data/census.csv"):
+def load_data(load_dir):
     #script is started from root directory -->
     cwd = os.getcwd()
     data = pd.read_csv(os.path.join(cwd,load_dir))
-    data.columns = data.columns.str.replace(' ','')
     return data
 
+def save_clean_data(data, save_dir):
+    try:
+        data.to_csv(save_dir)
+        print(f"cleaned data saved successfully to {save_dir}")
+    except OSError as err:
+        print(f"could not save the cleaned data: {err}")
 
 # Optional enhancement, use K-fold cross validation instead of a train-test split.
 def split_data(data):
@@ -61,12 +66,18 @@ def load_model(pth):
         return None
 
 def go():
-    data = load_data()
+    data = load_data(os.path.normcase("starter/data/census.csv"))
+    data.columns = data.columns.str.replace(' ','')
+    save_clean_data(data, os.path.normcase("starter/data/clean_census.csv"))
+
     train, test = split_data(data)
     X_train, y_train, X_test, y_test = proc_all_data(train, test)
+
     model = train_model(X_train, y_train)
-    save_model(model, os.path.join("starter/model/", "RF_model"))
-    model = load_model(os.path.join("starter/model/", "RF_model"))
+
+    save_model(model, os.path.normcase("starter/model/RF_model"))
+    #model = load_model(os.path.normcase("starter/model/RF_model"))
+
     preds = inference(model, X_test)
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
 
