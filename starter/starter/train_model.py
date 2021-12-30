@@ -44,26 +44,29 @@ def proc_all_data(train, test):
     
     return X_train, y_train, X_test, y_test
 
-def save_model(model, name, pth="starter/model/"):
+def save_model(model, save_pth):
     try:
-        save_pth = os.path.join(pth, name)
         pickle.dump(model, open(save_pth, 'wb'))
         print(f"Model saved successfully under {save_pth}")
     except OSError as err:
         print(f"Model was not saved with the following error: {err}")
 
-    # # some time later...
-
-    # # load the model from disk
-    # loaded_model = pickle.load(open(filename, 'rb'))
-    # # Train and save a model.
+def load_model(pth):
+    try:
+        model = pickle.load(open(pth, 'rb'))
+        print(f"Model was loaded succesfully from {pth}")
+        return model
+    except OSError as err:
+        print(f"Model could not be loaded with the following error: {err}")
+        return None
 
 def go():
     data = load_data()
     train, test = split_data(data)
     X_train, y_train, X_test, y_test = proc_all_data(train, test)
     model = train_model(X_train, y_train)
-    save_model(model, "RF_model")
+    save_model(model, os.path.join("starter/model/", "RF_model"))
+    model = load_model(os.path.join("starter/model/", "RF_model"))
     preds = inference(model, X_test)
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
 
