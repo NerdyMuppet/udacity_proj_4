@@ -3,8 +3,12 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
+import sys
 import pickle
 import os
+# SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+# ML_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "ml"))
+# sys.path.append(os.path.dirname(ML_DIR))
 from ml.data import process_data
 from ml.model import train_model, inference, compute_model_metrics
 
