@@ -122,9 +122,9 @@ def go():
     # save_model(model, os.path.normcase("starter/model/RF_model"))
     # save_encoder(encoder, os.path.normcase("starter/model/encoder"))
     # save_encoder(lb, os.path.normcase("starter/model/lb"))
-    #model = load_model(os.path.normcase("starter/model/RF_model"))
-    #encoder = load_encoder(os.path.normcase("starter/model/encoder"))
-    #lb = load_encoder(os.path.normcase("starter/model/lb"))
+    # model = load_model(os.path.normcase("starter/model/RF_model"))
+    # encoder = load_encoder(os.path.normcase("starter/model/encoder"))
+    # slb = load_encoder(os.path.normcase("starter/model/lb"))
 
     preds = inference(model, X_test)
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
