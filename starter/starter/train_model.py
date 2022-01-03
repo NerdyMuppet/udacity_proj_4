@@ -138,4 +138,4 @@ def go():
     resu = create_slice_inference_on_column(data, model, "education", cat_features)
     write_slicing_resu(resu)
 
-#go()
+go()

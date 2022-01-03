@@ -13,13 +13,14 @@ def data():
     try:
         data = pd.read_csv("starter/data/clean_census.csv")
         print("starter/data/clean_census.csv")
+        return data
     except FileNotFoundError as err:
         print(f"{err}, using test data instead of full data" )
         data = pd.read_csv(
             #os.path.join(os.path.normpath(os.path.join(cwd, os.pardir)),
             "starter/data/test_clean_census.csv"#)
             )
-    return data
+        return data
 
 @pytest.fixture
 def np_data(data):
@@ -47,6 +48,6 @@ def test_is_numpy(np_data):
     assert isinstance(np_data[2], np.ndarray)
     assert isinstance(np_data[3], np.ndarray)
 
-def test_shape(np_data):
-    assert np_data[0].shape[1] == 109
-    assert np_data[2].shape[1] == 109
+def test_mean(np_data):
+    assert np_data[0].mean() + 50 > np_data[2].mean()
+    assert np_data[0].mean() - 50 < np_data[2].mean()
