@@ -49,5 +49,5 @@ def test_is_numpy(np_data):
     assert isinstance(np_data[3], np.ndarray)
 
 def test_mean(np_data):
-    assert np_data[0].mean() + 50 > np_data[2].mean()
-    assert np_data[0].mean() - 50 < np_data[2].mean()
+    assert (np_data[0].mean() + 1000) > np_data[2].mean()
+    assert (np_data[0].mean() - 1000) < np_data[2].mean()
