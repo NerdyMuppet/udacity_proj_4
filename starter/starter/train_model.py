@@ -13,6 +13,19 @@ from ml.data import process_data
 from ml.model import train_model, inference, compute_model_metrics
 
 # Add code to load in the data.
+def get_cat_features():
+    cat_feat = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country",
+    ]
+    return cat_feat
+
 def load_data(load_dir):
     #script is started from root directory -->
     try:
@@ -110,16 +123,7 @@ def go():
     data.replace(' ', '', regex=True)
     save_clean_data(data, os.path.normcase("starter/data/clean_census.csv"))
     
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
+    cat_features =  get_cat_features()
 
     train, test = split_data(data)
     X_train, y_train, X_test, y_test, encoder, lb = proc_all_data(train, test, cat_features)
@@ -138,4 +142,4 @@ def go():
     resu = create_slice_inference_on_column(data, model, "education", cat_features)
     write_slicing_resu(resu)
 
-#go()
+go()
