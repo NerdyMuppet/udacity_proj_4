@@ -120,13 +120,13 @@ def write_slicing_resu(resu):
 def go():
     full_path = os.path.realpath(__file__)
     path, filename = os.path.split(full_path)
-    root_dir = os.path.abspath(path)
+    root_dir = os.path.abspath(os.path.join(path, os.pardir, os.pardir))
     dat_dir = os.path.join(root_dir, 'starter/data/census.csv')
 
     data = load_data(dat_dir)
     data.columns = data.columns.str.replace(' ','')
     data.replace(' ', '', regex=True)
-    save_clean_data(data, os.path.normcase("starter/data/clean_census.csv"))
+    save_clean_data(data, os.path.normcase(os.path.join(root_dir,"starter/data/clean_census.csv")))
     
     cat_features =  get_cat_features()
 
