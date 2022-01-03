@@ -21,8 +21,8 @@ def load_data(load_dir):
     except FileNotFoundError as err:
         print(f"{err}, using test data instead of full data" )
         data = pd.read_csv(
-            #os.path.join(os.path.normpath(os.path.join(cwd, os.pardir)),
-            "starter/data/test_clean_census.csv"#)
+            os.path.join(os.path.normpath(os.path.join(cwd, os.pardir)),
+            "starter/data/test_clean_census.csv")
             )
     return data
 
