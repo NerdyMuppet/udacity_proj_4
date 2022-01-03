@@ -15,8 +15,14 @@ from ml.model import train_model, inference, compute_model_metrics
 # Add code to load in the data.
 def load_data(load_dir):
     #script is started from root directory -->
-    cwd = os.getcwd()
-    data = pd.read_csv(os.path.join(os.path.normpath(os.path.join(cwd, os.pardir)),load_dir))
+    try:
+        cwd = os.getcwd()
+        data = pd.read_csv(os.path.join(cwd,load_dir))
+    except FileNotFoundError as err:
+        print(f"{err}, using test data instead of full data" )
+        data = pd.read_csv(os.path.join(
+            os.path.normpath(os.path.join(cwd, os.pardir)),
+            "starter/data/census.csv"))
     return data
 
 def save_clean_data(data, save_dir):
