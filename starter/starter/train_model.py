@@ -16,6 +16,7 @@ from ml.model import train_model, inference, compute_model_metrics
 def load_data(load_dir):
     #script is started from root directory -->
     cwd = os.getcwd()
+    cwd = os.pardir(cwd)
     data = pd.read_csv(os.path.join(cwd,load_dir))
     return data
 
