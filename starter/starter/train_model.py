@@ -120,7 +120,7 @@ def write_slicing_resu(resu):
 def go():
     full_path = os.path.realpath(__file__)
     path, filename = os.path.split(full_path)
-    root_dir = os.path.abspath(os.path.join(path, os.pardir))
+    root_dir = os.path.abspath(path)
     dat_dir = os.path.join(root_dir, 'starter/data/census.csv')
 
     data = load_data(dat_dir)
@@ -147,4 +147,4 @@ def go():
     resu = create_slice_inference_on_column(data, model, "education", cat_features)
     write_slicing_resu(resu)
 
-go()
+#go()
