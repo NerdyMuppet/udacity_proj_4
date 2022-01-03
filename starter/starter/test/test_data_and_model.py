@@ -10,7 +10,14 @@ from starter.train_model import proc_all_data, split_data
 
 @pytest.fixture
 def data():
-    data = pd.read_csv("../starter/data/test_clean_census.csv")
+    try:
+        data = pd.read_csv("../starter/data/test_clean_census.csv")
+    except FileNotFoundError as err:
+        print(f"{err}, using test data instead of full data" )
+        data = pd.read_csv(
+            #os.path.join(os.path.normpath(os.path.join(cwd, os.pardir)),
+            "starter/data/test_clean_census.csv"#)
+            )
     return data
 
 @pytest.fixture
