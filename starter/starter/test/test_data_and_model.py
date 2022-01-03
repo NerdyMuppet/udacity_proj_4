@@ -10,7 +10,7 @@ from starter.train_model import proc_all_data, split_data
 
 @pytest.fixture
 def data():
-    data = pd.read_csv("starter/data/clean_census.csv")
+    data = pd.read_csv("../starter/data/clean_census.csv")
     return data
 
 @pytest.fixture
