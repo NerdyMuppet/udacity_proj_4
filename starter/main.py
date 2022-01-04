@@ -58,7 +58,8 @@ async def say_hello():
 @app.post("/infer")
 async def infer(user_data: SingleQuery):
     #full_path = os.path.abspath(getsourcefile(lambda:0))
-    pth = os.path.relpath("udacity_proj_4/starter/model/", "udacity_proj_4/starter/main.py")
+    #pth = os.path.relpath("udacity_proj_4/starter/model/", "udacity_proj_4/starter/main.py")
+    pth = os.path.normpath("starter/model/")
     #path, filename = os.path.split(full_path)
     #root_dir = os.path.abspath(os.path.join(full_path, os.pardir, os.pardir))
     #os.path.join(root_dir, 'starter/model')
