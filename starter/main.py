@@ -57,15 +57,15 @@ async def say_hello():
 
 @app.post("/infer")
 async def infer(user_data: SingleQuery):
-    #full_path = os.path.abspath(getsourcefile(lambda:0))
+    full_path = os.path.abspath(getsourcefile(lambda:0))
     #pth = os.path.relpath("udacity_proj_4/starter/model/", "udacity_proj_4/starter/main.py")
-    pth = os.path.normpath("starter/model/")
-    #path, filename = os.path.split(full_path)
-    #root_dir = os.path.abspath(os.path.join(full_path, os.pardir, os.pardir))
+    #pth = os.path.normpath("starter/model/")
+    path, filename = os.path.split(full_path)
+    root_dir = os.path.abspath(os.path.join(full_path, os.pardir, os.pardir))
     #os.path.join(root_dir, 'starter/model')
-    model = load_model(os.path.join(pth, 'RF_model'))
-    encoder = load_encoder(os.path.join(pth, 'encoder'))
-    lb = load_encoder(os.path.join(pth, 'lb'))
+    model = load_model(os.path.join(root_dir, 'starter/model/RF_model'))
+    encoder = load_encoder(os.path.join(root_dir, 'starter/model/encoder'))
+    lb = load_encoder(os.path.join(root_dir, 'starter/model/lb'))
 
     array = np.array([[
                      user_data.age,
