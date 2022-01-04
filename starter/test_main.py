@@ -33,11 +33,6 @@ def test_less_than():
     assert r.status_code == 200
     assert r.json() == {"prediction": " <=50K"}
 
-#Federal-gov,337895, Bachelors,13, Married-civ-spouse, Prof-specialty, Husband, Black, Male,0,0,40, United-States, >50K
-# 41, Private,220531, Prof-school,15, Married-civ-spouse, Prof-specialty, Husband, White, Male,0,0,60, United-States
-# 53          State-gov  229465      Doctorate             16   Married-civ-spouse   Prof-specialty         Husband   White     Male             0             0              50   United-States
-#43, Self-emp-not-inc,292175, Masters,14, Divorced, Exec-managerial, Unmarried, White, Female,0,0,45, United-States, >50K
-#32            Private  209538        Masters             14   Married-civ-spouse    Exec-managerial      Husband   White     Male             0             0              55   United-States
 def test_more_than():
     r = client.post("/infer", json={
             "age": 50, 
