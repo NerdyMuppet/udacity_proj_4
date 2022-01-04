@@ -14,7 +14,7 @@ def test_get_path():
     assert r.json()[0] == "Hello! Welcome to the query app of an AI model of the udacity project 4!"
 
 def test_less_than():
-    r = client.post("/infer", json={
+    r = client.post("/infer", json= {
             "age": 28,
             "workclass": "Private", 
             "fnlgt": 338409,  
@@ -35,21 +35,24 @@ def test_less_than():
 
 #Federal-gov,337895, Bachelors,13, Married-civ-spouse, Prof-specialty, Husband, Black, Male,0,0,40, United-States, >50K
 # 41, Private,220531, Prof-school,15, Married-civ-spouse, Prof-specialty, Husband, White, Male,0,0,60, United-States
+# 53          State-gov  229465      Doctorate             16   Married-civ-spouse   Prof-specialty         Husband   White     Male             0             0              50   United-States
+#43, Self-emp-not-inc,292175, Masters,14, Divorced, Exec-managerial, Unmarried, White, Female,0,0,45, United-States, >50K
+#32            Private  209538        Masters             14   Married-civ-spouse    Exec-managerial      Husband   White     Male             0             0              55   United-States
 def test_more_than():
     r = client.post("/infer", json={
-            "age": 41, 
+            "age": 50, 
             "workclass": "Private",
-            "fnlgt": 220531, 
-            "education": "Prof-school", 
-            "education_num": 15, 
+            "fnlgt": 209538, 
+            "education": "Masters", 
+            "education_num": 14, 
             "marital_status": "Married-civ-spouse", 
-            "occupation": "Prof-specialty", 
+            "occupation": "Exec-managerial", 
             "relationship": "Husband",
             "race":  "White",
             "sex":  "Male", 
-            "capital_gain": 0, 
+            "capital_gain": 3645743, 
             "capital_loss": 0, 
-            "hours_per_week": 60, 
+            "hours_per_week": 50, 
             "native_country": "United-States"
     })
     assert r.status_code == 200
