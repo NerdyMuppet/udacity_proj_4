@@ -11,6 +11,13 @@ ML_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "starter/starter/"))
 sys.path.append(os.path.dirname(ML_DIR))
 from train_model import load_model, load_encoder, get_cat_features, process_data, inference
 
+
+if "DYNO" in os.environ and os.path.isdir(".dvc"):
+    os.system("dvc config core.no_scm true")
+    if os.system("dvc pull") != 0:
+        exit("dvc pull failed")
+    os.system("rm -r .dvc .apt/usr/lib/dvc")
+
 # Declare the data object with its components and their type.
 class SingleQuery(BaseModel):
     age: int
